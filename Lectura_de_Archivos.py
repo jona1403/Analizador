@@ -139,6 +139,7 @@ def Lectura(ruta):
                     cadena = ""
                 elif Estado_Hijo == "nombre":
                     if char == "<":
+                        EstacionNombre = cadena
                         cadena = ""
                     elif re.search(pattern_estacion_nombre_cerradura, cadena):
                         Estado_Hijo = "ninguno"
@@ -152,6 +153,7 @@ def Lectura(ruta):
                     cadena = ""
                 elif Estado_Hijo == "estado":
                     if char == "<":
+                        EstacionEstado = cadena
                         cadena = ""
                     elif re.search(pattern_estacion_estado_cerradura, cadena):
                         Estado_Hijo = "ninguno"
@@ -165,13 +167,18 @@ def Lectura(ruta):
                     cadena = ""
                 elif Estado_Hijo == "color":
                     if char == "<":
+                        EstacionColor = cadena
                         cadena = ""
                     elif re.search(pattern_estacion_color_cerradura, cadena):
                         Estado_Hijo = "ninguno"
                         cadena = ""
                 elif re.search(pattern_estacion_cerradura, cadena):
                     Estado_Padre = "ninguno"
+                    EstacionAux = Estacion(EstacionNombre, EstacionEstado, EstacionColor)
                     cadena = ""
+                    EstacionNombre = ""
+                    EstacionEstado = ""
+                    EstacionColor = ""
             elif re.search(pattern_nombre_apertura, cadena) and Estado_Padre == "ninguno":
                 Estado_Padre = "nombre"
                 Numero_Tokens += 1
