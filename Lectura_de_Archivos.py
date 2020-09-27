@@ -1,11 +1,18 @@
 import re
 from Clases import Ruta
 from Clases import Estacion
+from GraficarReportes import Graficar_Reporte_Tokens_Y_Reporte_Errores
 Reporte_Tokens = []
+Reporte_Errores = []
+Lista_Rutas = []
+Lista_Estaciones = []
 Reporte_Tokens.append(["No.", "Lexema", "Fila", "Columna", "Token"])
+Reporte_Errores.append(["No.", "Fila", "Columna", "Caracter", "Descripción"])
 pattern_ruta_apertura = r"<[^/]*[R|r][U|u][T|t][A|a](.)*>"
+pattern_ruta_apertura_correcto = r"<[R|r][U|u][T|t][A|a]>"
 pattern_ruta_lexema = r"[R|r][U|u][T|t][A|a]"
 pattern_ruta_cerradura = r"</(.)*[R|r][U|u][T|t][A|a](.)*>"
+pattern_ruta_cerradura_correcto = r"</[R|r][U|u][T|t][A|a]>"
 pattern_ruta_nombre_apertura = r"<[^/]*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 pattern_ruta_nombre_lexema = r"[N|n][O|o][M|m][B|b][R|r][E|e]"
 pattern_ruta_nombre_cerradura = r"</(.)*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
@@ -33,14 +40,18 @@ pattern_estacion_color_cerradura = r"</(.)*[C|c][O|o][L|l][O|o][R|r](.)*>"
 pattern_nombre_apertura = r"<[^/]*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 pattern_nombre_lexema = r"[N|n][O|o][M|m][B|b][R|r][E|e]"
 pattern_nombre_cerradura = r"</(.)*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
+Pettern_letras = r""
 def Lectura(ruta):
     file = open(ruta, "r")
     Estado_Padre = "ninguno"
     Estado_Hijo = "ninguno"
+    Estado_Caracter = "ninguno"
     cadena = ""
     filas = 0
     columnas = 0
+    Contador_Signos_de_Apertura = 0
     Numero_Tokens = 0
+    Numero_Erores = 0
     NombreRuta = ""
     PesoRuta = 0
     InicioRuta = ""
@@ -116,6 +127,7 @@ def Lectura(ruta):
                         cadena = ""
                 elif re.search(pattern_ruta_cerradura, cadena):
                     RutaAux = Ruta(NombreRuta, PesoRuta, InicioRuta, FinRuta)
+                    Lista_Rutas.append(RutaAux)
                     Estado_Padre = "ninguno"
                     cadena = ""
                     NombreRuta = ""
@@ -175,6 +187,7 @@ def Lectura(ruta):
                 elif re.search(pattern_estacion_cerradura, cadena):
                     Estado_Padre = "ninguno"
                     EstacionAux = Estacion(EstacionNombre, EstacionEstado, EstacionColor)
+                    Lista_Estaciones.append(EstacionAux)
                     cadena = ""
                     EstacionNombre = ""
                     EstacionEstado = ""
@@ -192,11 +205,345 @@ def Lectura(ruta):
                 elif re.search(pattern_nombre_cerradura, cadena):
                     Estado_Padre = "ninguno"
                     cadena = ""
+
+
+
+
             if char == "\n" or char == " ":
                 pass
+            elif Estado_Caracter == "ninguno":
+                if char == "<":
+                    Estado_Caracter = "apertura"
+                    cadena += char
+                elif Estado_Padre == "nombre" or Estado_Hijo == "nombre" or Estado_Hijo == "peso" or Estado_Hijo == "inicio" or Estado_Hijo == "fin" or Estado_Hijo == "estado" or Estado_Hijo == "color":
+                    cadena += char
+                else:
+                    print("Aqui hay que reportar un error")
+            elif Estado_Caracter == "apertura":
+                if Estado_Padre == "ninguno":
+                    if char == "r" or char == "R":
+                        Estado_Caracter = "r_ruta"
+                        cadena += char
+                    elif char == "e" or char == "E":
+                        Estado_Caracter = "e_estacion"
+                        cadena += char
+                    elif char == "n" or char == "N":
+                        Estado_Caracter = "n_nombre"
+                        cadena += char
+                    else:
+                        print("Aqui se reporta un error")
+                elif Estado_Padre != "ninguno":
+                    if char == "/" and Estado_Hijo == "ninguno":
+                        Estado_Caracter = "diagonal_cierre"
+                        cadena += char
+                    elif Estado_Hijo == "ninguno":
+                        if char == "n" or char == "N":
+                            Estado_Caracter = "n_nombre"
+                            cadena+=char
+                        elif char == "p" or char == "P":
+                            Estado_Caracter = "p_peso"
+                            cadena+=char
+                        elif char == "i" or char == "I":
+                            Estado_Caracter = "i_inicio"
+                            cadena+=char
+                        elif char == "f" or char == "F":
+                            Estado_Caracter = "f_fin"
+                            cadena+=char
+                        elif char == "e" or char == "E":
+                            Estado_Caracter = "e_estado"
+                            cadena += char
+                        elif char == "c" or char == "C":
+                            Estado_Caracter = "c_color"
+                            cadena += char
+                        else:
+                            print("Aqui se reporta un error")
+                    elif Estado_Hijo != "ninguno":
+                        if char == "/":
+                            Estado_Caracter = "diagonal_cierre"
+                            cadena += char
+                    else:
+                        print("Aqui se reporta un error")
+            elif Estado_Caracter == "diagonal_cierre":
+                if char == "r" or char == "R":
+                    Estado_Caracter = "r_ruta"
+                    cadena += char
+                elif char == "e" or char == "E":
+                    if Estado_Hijo == "estado":
+                        Estado_Caracter = "e_estado"
+                        cadena += char
+                    else:
+                        Estado_Caracter = "e_estacion"
+                        cadena += char
+                elif char == "n" or char == "N":
+                    Estado_Caracter = "n_nombre"
+                    cadena += char
+                elif char == "p" or char == "P":
+                    Estado_Caracter = "p_peso"
+                    cadena+=char
+                elif char == "i" or char == "I":
+                    Estado_Caracter = "i_inicio"
+                    cadena += char
+                elif char == "f" or char == "F":
+                    Estado_Caracter = "f_fin"
+                    cadena += char
+                elif char == "c" or char == "C":
+                    Estado_Caracter = "c_color"
+                    cadena+=char
+                else:
+                    print("Aqui se reporta un errorvvvvvvqqqqqqq")
+            elif Estado_Caracter == "r_ruta":
+                if char == "u" or char == "U":
+                    Estado_Caracter = "u_ruta"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "e_estacion":
+                if char == "s" or char == "S":
+                    Estado_Caracter = "s_estacion"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "n_nombre":
+                if char == "o" or char == "O":
+                    Estado_Caracter = "o_nombre"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "u_ruta":
+                if char == "t" or char == "T":
+                    Estado_Caracter = "t_ruta"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "s_estacion":
+                if char == "t" or char == "T":
+                    Estado_Caracter = "t_estacion"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "o_nombre":
+                if char == "m" or char == "M":
+                    Estado_Caracter = "m_nombre"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "t_ruta":
+                if char == "a" or char == "A":
+                    Estado_Caracter = "a_ruta"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "t_estacion":
+                if char == "a" or char == "A":
+                    Estado_Caracter = "a_estacion"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "m_nombre":
+                if char == "b" or char == "B":
+                    Estado_Caracter = "b_nombre"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "a_estacion":
+                if char == "c" or char == "C":
+                    Estado_Caracter = "c_estacion"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "b_nombre":
+                if char == "r" or char == "R":
+                    Estado_Caracter = "r_nombre"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "c_estacion":
+                if char == "i" or char == "I":
+                    Estado_Caracter = "i_estacion"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "r_nombre":
+                if char == "e" or char == "E":
+                    Estado_Caracter = "e_nombre"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "i_estacion":
+                if char == "o" or char == "O":
+                    Estado_Caracter = "o_estacion"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "o_estacion":
+                if char == "n" or char == "N":
+                    Estado_Caracter = "n_estacion"
+                    cadena += char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "n_estacion":
+                if char == ">":
+                    Estado_Caracter = "ninguno"
+                    cadena+=char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "e_nombre":
+                if char == ">":
+                    Estado_Caracter = "ninguno"
+                    cadena+=char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "a_ruta":
+                if char == ">":
+                    Estado_Caracter = "ninguno"
+                    cadena+=char
+                else:
+                    print("Aqui va otro error")
+            elif Estado_Caracter == "p_peso":
+                if char == "e" or char == "E":
+                    Estado_Caracter = "e_peso"
+                    cadena+=char
+                else:
+                    print("Error e peso")
+            elif Estado_Caracter == "e_peso":
+                if char == "s" or char == "S":
+                    Estado_Caracter = "s_peso"
+                    cadena+=char
+                else:
+                    print("Error s peso")
+            elif Estado_Caracter == "s_peso":
+                if char == "o" or char == "O":
+                    Estado_Caracter = "o_peso"
+                    cadena+=char
+                else:
+                    print("Error o peso")
+            elif Estado_Caracter == "o_peso":
+                if char == ">":
+                    Estado_Caracter = "ninguno"
+                    cadena+=char
+            elif Estado_Caracter == "i_inicio":
+                if char == "n" or char == "N":
+                    Estado_Caracter = "n_inicio"
+                    cadena += char
+                else:
+                    print("Error e peso")
+            elif Estado_Caracter == "n_inicio":
+                if char == "i" or char == "I":
+                    Estado_Caracter = "2i_inicio"
+                    cadena += char
+                else:
+                    print("Error e peso")
+            elif Estado_Caracter == "2i_inicio":
+                if char == "c" or char == "C":
+                    Estado_Caracter = "c_inicio"
+                    cadena += char
+                else:
+                    print("Error e peso")
+            elif Estado_Caracter == "c_inicio":
+                if char == "i" or char == "I":
+                    Estado_Caracter = "3i_inicio"
+                    cadena += char
+                else:
+                    print("Error e peso")
+            elif Estado_Caracter == "3i_inicio":
+                if char == "o" or char == "O":
+                    Estado_Caracter = "o_inicio"
+                    cadena += char
+                else:
+                    print("Error e peso")
+            elif Estado_Caracter == "o_inicio":
+                if char == ">":
+                    Estado_Caracter = "ninguno"
+                    cadena += char
+                else:
+                    print("Error e peso")
+            elif Estado_Caracter == "f_fin":
+                if char == "i" or char == "I":
+                    Estado_Caracter = "i_fin"
+                    cadena += char
+                else:
+                    print("Error fin")
+            elif Estado_Caracter == "i_fin":
+                if char == "n" or char == "N":
+                    Estado_Caracter = "n_fin"
+                    cadena += char
+                else:
+                    print("Error fin")
+            elif Estado_Caracter == "n_fin":
+                if char == ">":
+                    Estado_Caracter = "ninguno"
+                    cadena+=char
+                else:
+                    print("Error fin")
+            elif Estado_Caracter == "e_estado":
+                if char == "s" or char == "S":
+                    Estado_Caracter = "s_estado"
+                    cadena += char
+                else:
+                    print("Error estado")
+            elif Estado_Caracter == "s_estado":
+                if char == "t" or char == "T":
+                    Estado_Caracter = "t_estado"
+                    cadena += char
+                else:
+                    print("Error estado")
+            elif Estado_Caracter == "t_estado":
+                if char == "a" or char == "A":
+                    Estado_Caracter = "a_estado"
+                    cadena += char
+                else:
+                    print("Error estado")
+            elif Estado_Caracter == "a_estado":
+                if char == "d" or char == "D":
+                    Estado_Caracter = "d_estado"
+                    cadena += char
+                else:
+                    print("Error estado")
+            elif Estado_Caracter == "d_estado":
+                if char == "o" or char == "O":
+                    Estado_Caracter = "o_estado"
+                    cadena += char
+                else:
+                    print("Error estado")
+            elif Estado_Caracter == "o_estado":
+                if char == ">":
+                    Estado_Caracter = "ninguno"
+                    cadena += char
+                else:
+                    print("Error estado")
+            elif Estado_Caracter == "c_color":
+                if char == "o" or char == "O":
+                    Estado_Caracter = "o_color"
+                    cadena += char
+                else:
+                    print("Error color")
+            elif Estado_Caracter == "o_color":
+                if char == "l" or char == "L":
+                    Estado_Caracter = "l_color"
+                    cadena += char
+                else:
+                    print("Error color")
+            elif Estado_Caracter == "l_color":
+                if char == "o" or char == "O":
+                    Estado_Caracter = "2o_Color"
+                    cadena += char
+                else:
+                    print("Error color")
+            elif Estado_Caracter == "2o_color":
+                if char == "r" or char == "R":
+                    Estado_Caracter = "r_color"
+                    cadena += char
+                else:
+                    print("Error color")
+            elif Estado_Caracter == "r_color":
+                if char == ">":
+                    Estado_Caracter = "ninguno"
+                    cadena += char
+                    print(cadena)
+                else:
+                    print("Error color")
             else:
                 cadena += char
-    print("-----------------------------------------------------\n")
-    for celda in Reporte_Tokens:
-        print(celda)
-    print("\n-----------------------------------------------------")
+
+
+    Graficar_Reporte_Tokens_Y_Reporte_Errores(Reporte_Tokens, Reporte_Errores)
