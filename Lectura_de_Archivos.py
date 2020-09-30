@@ -40,7 +40,7 @@ pattern_estacion_color_cerradura = r"</(.)*[C|c][O|o][L|l][O|o][R|r](.)*>"
 pattern_nombre_apertura = r"<[^/]*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 pattern_nombre_lexema = r"[N|n][O|o][M|m][B|b][R|r][E|e]"
 pattern_nombre_cerradura = r"</(.)*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
-Pettern_letras = r""
+identificador_esperado = r"(a-zA-Z)(\w)*"
 def Lectura(ruta):
     file = open(ruta, "r")
     Estado_Padre = "ninguno"
@@ -218,7 +218,8 @@ def Lectura(ruta):
                 elif Estado_Padre == "nombre" or Estado_Hijo == "nombre" or Estado_Hijo == "peso" or Estado_Hijo == "inicio" or Estado_Hijo == "fin" or Estado_Hijo == "estado" or Estado_Hijo == "color":
                     cadena += char
                 else:
-                    print("Aqui hay que reportar un error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Desconocido"])
             elif Estado_Caracter == "apertura":
                 if Estado_Padre == "ninguno":
                     if char == "r" or char == "R":
@@ -231,7 +232,8 @@ def Lectura(ruta):
                         Estado_Caracter = "n_nombre"
                         cadena += char
                     else:
-                        print("Aqui se reporta un error")
+                        Numero_Erores += 1
+                        Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Desconocido"])
                 elif Estado_Padre != "ninguno":
                     if char == "/" and Estado_Hijo == "ninguno":
                         Estado_Caracter = "diagonal_cierre"
@@ -256,13 +258,15 @@ def Lectura(ruta):
                             Estado_Caracter = "c_color"
                             cadena += char
                         else:
-                            print("Aqui se reporta un error")
+                            Numero_Erores += 1
+                            Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
                     elif Estado_Hijo != "ninguno":
                         if char == "/":
                             Estado_Caracter = "diagonal_cierre"
                             cadena += char
                     else:
-                        print("Aqui se reporta un error")
+                        Numero_Erores += 1
+                        Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "diagonal_cierre":
                 if char == "r" or char == "R":
                     Estado_Caracter = "r_ruta"
@@ -290,133 +294,155 @@ def Lectura(ruta):
                     Estado_Caracter = "c_color"
                     cadena+=char
                 else:
-                    print("Aqui se reporta un errorvvvvvvqqqqqqq")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "r_ruta":
                 if char == "u" or char == "U":
                     Estado_Caracter = "u_ruta"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "e_estacion":
                 if char == "s" or char == "S":
                     Estado_Caracter = "s_estacion"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "n_nombre":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_nombre"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "u_ruta":
                 if char == "t" or char == "T":
                     Estado_Caracter = "t_ruta"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "s_estacion":
                 if char == "t" or char == "T":
                     Estado_Caracter = "t_estacion"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "o_nombre":
                 if char == "m" or char == "M":
                     Estado_Caracter = "m_nombre"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "t_ruta":
                 if char == "a" or char == "A":
                     Estado_Caracter = "a_ruta"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "t_estacion":
                 if char == "a" or char == "A":
                     Estado_Caracter = "a_estacion"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "m_nombre":
                 if char == "b" or char == "B":
                     Estado_Caracter = "b_nombre"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "a_estacion":
                 if char == "c" or char == "C":
                     Estado_Caracter = "c_estacion"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "b_nombre":
                 if char == "r" or char == "R":
                     Estado_Caracter = "r_nombre"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "c_estacion":
                 if char == "i" or char == "I":
                     Estado_Caracter = "i_estacion"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "r_nombre":
                 if char == "e" or char == "E":
                     Estado_Caracter = "e_nombre"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "i_estacion":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_estacion"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "o_estacion":
                 if char == "n" or char == "N":
                     Estado_Caracter = "n_estacion"
                     cadena += char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "n_estacion":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena+=char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "e_nombre":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena+=char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "a_ruta":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena+=char
                 else:
-                    print("Aqui va otro error")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "p_peso":
                 if char == "e" or char == "E":
                     Estado_Caracter = "e_peso"
                     cadena+=char
                 else:
-                    print("Error e peso")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "e_peso":
                 if char == "s" or char == "S":
                     Estado_Caracter = "s_peso"
                     cadena+=char
                 else:
-                    print("Error s peso")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "s_peso":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_peso"
                     cadena+=char
                 else:
-                    print("Error o peso")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "o_peso":
                 if char == ">":
                     Estado_Caracter = "ninguno"
@@ -426,124 +452,143 @@ def Lectura(ruta):
                     Estado_Caracter = "n_inicio"
                     cadena += char
                 else:
-                    print("Error e peso")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "n_inicio":
                 if char == "i" or char == "I":
                     Estado_Caracter = "2i_inicio"
                     cadena += char
                 else:
-                    print("Error e peso")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "2i_inicio":
                 if char == "c" or char == "C":
                     Estado_Caracter = "c_inicio"
                     cadena += char
                 else:
-                    print("Error e peso")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "c_inicio":
                 if char == "i" or char == "I":
                     Estado_Caracter = "3i_inicio"
                     cadena += char
                 else:
-                    print("Error e peso")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "3i_inicio":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_inicio"
                     cadena += char
                 else:
-                    print("Error e peso")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "o_inicio":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena += char
                 else:
-                    print("Error e peso")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "f_fin":
                 if char == "i" or char == "I":
                     Estado_Caracter = "i_fin"
                     cadena += char
                 else:
-                    print("Error fin")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "i_fin":
                 if char == "n" or char == "N":
                     Estado_Caracter = "n_fin"
                     cadena += char
                 else:
-                    print("Error fin")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "n_fin":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena+=char
                 else:
-                    print("Error fin")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "e_estado":
                 if char == "s" or char == "S":
                     Estado_Caracter = "s_estado"
                     cadena += char
                 else:
-                    print("Error estado")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "s_estado":
                 if char == "t" or char == "T":
                     Estado_Caracter = "t_estado"
                     cadena += char
                 else:
-                    print("Error estado")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "t_estado":
                 if char == "a" or char == "A":
                     Estado_Caracter = "a_estado"
                     cadena += char
                 else:
-                    print("Error estado")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "a_estado":
                 if char == "d" or char == "D":
                     Estado_Caracter = "d_estado"
                     cadena += char
                 else:
-                    print("Error estado")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "d_estado":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_estado"
                     cadena += char
                 else:
-                    print("Error estado")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "o_estado":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena += char
                 else:
-                    print("Error estado")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "c_color":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_color"
                     cadena += char
                 else:
-                    print("Error color")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "o_color":
                 if char == "l" or char == "L":
                     Estado_Caracter = "l_color"
                     cadena += char
                 else:
-                    print("Error color")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "l_color":
                 if char == "o" or char == "O":
                     Estado_Caracter = "2o_Color"
                     cadena += char
                 else:
-                    print("Error color")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "2o_color":
                 if char == "r" or char == "R":
                     Estado_Caracter = "r_color"
                     cadena += char
                 else:
-                    print("Error color")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             elif Estado_Caracter == "r_color":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena += char
-                    print(cadena)
                 else:
-                    print("Error color")
+                    Numero_Erores += 1
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
             else:
                 cadena += char
 
-
     Graficar_Reporte_Tokens_Y_Reporte_Errores(Reporte_Tokens, Reporte_Errores)
+
