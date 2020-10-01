@@ -15,30 +15,39 @@ pattern_ruta_cerradura = r"</(.)*[R|r][U|u][T|t][A|a](.)*>"
 pattern_ruta_cerradura_correcto = r"</[R|r][U|u][T|t][A|a]>"
 pattern_ruta_nombre_apertura = r"<[^/]*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 pattern_ruta_nombre_lexema = r"[N|n][O|o][M|m][B|b][R|r][E|e]"
+pattern_ruta_nombre_contenido = r"[A-Za-z]+[_|A-Za-z0-9|@|#]*"
 pattern_ruta_nombre_cerradura = r"</(.)*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 pattern_ruta_peso_apertura = r"<[^/]*[P|p][E|e][S|s][O|o](.)*>"
 pattern_ruta_peso_lexema = r"[P|p][E|e][S|s][O|o]"
+pattern_ruta_peso_contenido = r"[0-9]+[.]?[0-9]*"
 pattern_ruta_peso_cerradura = r"</(.)*[P|p][E|e][S|s][O|o](.)*>"
 pattern_ruta_inicio_apertura = r"<[^/]*[I|i][N|n][I|i][C|c][I|i][O|o](.)*>"
 pattern_ruta_inicio_lexema = r"[I|i][N|n][I|i][C|c][I|i][O|o]"
+pattern_ruta_inicio_contenido = r"[A-Za-z]+[_|A-Za-z0-9|@|#]*"
 pattern_ruta_inicio_cerradura = r"</(.)*[I|i][N|n][I|i][C|c][I|i][O|o](.)*>"
 pattern_ruta_fin_apertura = r"<[^/]*[F|f][I|i][N|n](.)*>"
 pattern_ruta_fin_lexema = r"[F|f][I|i][N|n]"
+pattern_ruta_fin_contenido = r"[A-Za-z]+[_|A-Za-z0-9|@|#]*"
 pattern_ruta_fin_cerradura = r"</(.)*[F|f][I|i][N|n](.)*>"
 pattern_estacion_apertura = r"<[^/]*[E|e][S|s][T|t][A|a][C|c][I|i][O|o][N|n](.)*>"
 pattern_estacion_lexema = r"[E|e][S|s][T|t][A|a][C|c][I|i][O|o][N|n]"
 pattern_estacion_cerradura = r"</(.)*[E|e][S|s][T|t][A|a][C|c][I|i][O|o][N|n](.)*>"
 pattern_estacion_nombre_apertura = r"<[^/]*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 pattern_estacion_nombre_lexema = r"[N|n][O|o][M|m][B|b][R|r][E|e]"
+pattern_estacion_nombre_contenido = r"[A-Za-z]+[_|A-Za-z0-9|@|#]*"
 pattern_estacion_nombre_cerradura = r"</(.)*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 pattern_estacion_estado_apertura = r"<[^/]*[E|e][S|s][T|t][A|a][D|d][O|o](.)*>"
 pattern_estacion_estado_lexema = r"[E|e][S|s][T|t][A|a][D|d][O|o]"
+pattern_estacion_estadodis_contenido = r"[D|d][I|i][S|s][P|p][O|o][N|n][I|i][B|b][L|l][E|e]"
+pattern_estacion_estado_cerrado_contenido = r"[C|c][E|e][R|r][R|r][A|a][D|d][A|a|O|o]"
 pattern_estacion_estado_cerradura = r"</(.)*[E|e][S|s][T|t][A|a][D|d][O|o](.)*>"
 pattern_estacion_color_apertura = r"<[^/]*[C|c][O|o][L|l][O|o][R|r](.)*>"
 pattern_estacion_color_lexema = r"[C|c][O|o][L|l][O|o][R|r]"
+pattern_estacion_color_contenido = r"#[A-Z0-9]{6,6}"
 pattern_estacion_color_cerradura = r"</(.)*[C|c][O|o][L|l][O|o][R|r](.)*>"
 pattern_nombre_apertura = r"<[^/]*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 pattern_nombre_lexema = r"[N|n][O|o][M|m][B|b][R|r][E|e]"
+pattern_nombre_contenido = r"[A-Za-z]+[_|A-Za-z0-9|@|#|\s]*"
 pattern_nombre_cerradura = r"</(.)*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 identificador_esperado = r"(a-zA-Z)(\w)*"
 def Lectura(ruta):
@@ -60,6 +69,7 @@ def Lectura(ruta):
     EstacionNombre = ""
     EstacionEstado = ""
     EstacionColor = ""
+    NombreMapa = ""
     for line in file:
         filas += 1
         columnas = 0
@@ -126,14 +136,18 @@ def Lectura(ruta):
                         Estado_Hijo = "ninguno"
                         cadena = ""
                 elif re.search(pattern_ruta_cerradura, cadena):
-                    RutaAux = Ruta(NombreRuta, PesoRuta, InicioRuta, FinRuta)
-                    Lista_Rutas.append(RutaAux)
-                    Estado_Padre = "ninguno"
-                    cadena = ""
-                    NombreRuta = ""
-                    PesoRuta = ""
-                    InicioRuta = ""
-                    FinRuta = ""
+                    if re.match(pattern_ruta_nombre_contenido, NombreRuta) and re.match(pattern_ruta_peso_contenido, str(PesoRuta)) and re.match(pattern_ruta_inicio_contenido, InicioRuta) and re.match(pattern_ruta_fin_contenido, FinRuta):
+                        RutaAux = Ruta(NombreRuta.lower(), PesoRuta, InicioRuta.lower(), FinRuta.lower())
+                        Lista_Rutas.append(RutaAux)
+                        Estado_Padre = "ninguno"
+                        cadena = ""
+                        NombreRuta = ""
+                        PesoRuta = ""
+                        InicioRuta = ""
+                        FinRuta = ""
+                    else:
+                        print("Los Datos dentro de la ruta no poseen el formato adecuado")
+                        break
             elif re.search(pattern_estacion_apertura, cadena) and Estado_Padre == "ninguno":
                 Estado_Padre = "estacion"
                 Numero_Tokens += 1
@@ -185,13 +199,30 @@ def Lectura(ruta):
                         Estado_Hijo = "ninguno"
                         cadena = ""
                 elif re.search(pattern_estacion_cerradura, cadena):
-                    Estado_Padre = "ninguno"
-                    EstacionAux = Estacion(EstacionNombre, EstacionEstado, EstacionColor)
-                    Lista_Estaciones.append(EstacionAux)
-                    cadena = ""
-                    EstacionNombre = ""
-                    EstacionEstado = ""
-                    EstacionColor = ""
+                    if re.match(pattern_estacion_nombre_contenido, EstacionNombre) and re.match(pattern_estacion_color_contenido, EstacionColor):
+                        if re.match(pattern_estacion_estadodis_contenido, EstacionEstado):
+                            Estado_Padre = "ninguno"
+                            EstacionAux = Estacion(EstacionNombre.lower(), EstacionEstado.lower(), EstacionColor)
+                            Lista_Estaciones.append(EstacionAux)
+                            cadena = ""
+                            EstacionNombre = ""
+                            EstacionEstado = ""
+                            EstacionColor = ""
+                        elif re.match(pattern_estacion_estado_cerrado_contenido, EstacionEstado):
+                            Estado_Padre = "ninguno"
+                            EstacionAux = Estacion(EstacionNombre.lower(), EstacionEstado.lower(), EstacionColor)
+                            Lista_Estaciones.append(EstacionAux)
+                            cadena = ""
+                            EstacionNombre = ""
+                            EstacionEstado = ""
+                            EstacionColor = ""
+                        else:
+                            print("Los Datos dentro de la estacion no poseen el formato adecuado")
+                            break
+                    else:
+                        print("Los Datos dentro de la estacion no poseen el formato adecuado")
+                        break
+
             elif re.search(pattern_nombre_apertura, cadena) and Estado_Padre == "ninguno":
                 Estado_Padre = "nombre"
                 Numero_Tokens += 1
@@ -201,13 +232,16 @@ def Lectura(ruta):
                 cadena = ""
             elif Estado_Padre == "nombre":
                 if char == "<":
+                    NombreMapa = cadena
+                    if re.match(pattern_nombre_contenido, NombreMapa):
+                        pass
+                    else:
+                        print("El contenido dentro del nombre del mapa no cumplen con el formato adecuado")
+                        break
                     cadena = ""
                 elif re.search(pattern_nombre_cerradura, cadena):
                     Estado_Padre = "ninguno"
                     cadena = ""
-
-
-
 
             if char == "\n" or char == " ":
                 pass
@@ -573,7 +607,7 @@ def Lectura(ruta):
                 else:
                     Numero_Erores += 1
                     Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
-            elif Estado_Caracter == "2o_color":
+            elif Estado_Caracter == "2o_Color":
                 if char == "r" or char == "R":
                     Estado_Caracter = "r_color"
                     cadena += char
@@ -591,4 +625,5 @@ def Lectura(ruta):
                 cadena += char
 
     Graficar_Reporte_Tokens_Y_Reporte_Errores(Reporte_Tokens, Reporte_Errores)
+    return Lista_Rutas, Lista_Estaciones
 

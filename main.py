@@ -1,4 +1,7 @@
 from Lectura_de_Archivos import Lectura
+from Graficar_Mapa import Grafica_Mapa
+Lista_Rutas = []
+Lista_Estaciones = []
 while True:
     print("-------------------------------------------------------")
     print("Lenguajes Formales y de Programación(796), Sección A-")
@@ -12,13 +15,13 @@ while True:
     opcion = input("Ingrese la opción deseada: ")
     if opcion == "1":
         Ruta = input("Ingrese la ruta del archivo: ")
-        Lectura(Ruta)
+        Lista_Rutas, Lista_Estaciones = Lectura(Ruta)
         input()
     elif opcion == "2":
         print("Graficando Ruta....................")
         input()
     elif opcion == "3":
-        r = input("Ingrese la ruta: ")
+        Grafica_Mapa(Lista_Rutas, Lista_Estaciones)
         input()
     elif opcion == "4":
         break

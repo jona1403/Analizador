@@ -126,7 +126,7 @@
     </inicio>
     <fin>
         estacionzona5
-    </fin>
+    </fin>"
 </ruta>
 
 <estacIon>
