@@ -51,7 +51,7 @@ pattern_nombre_contenido = r"[A-Za-z]+[_|A-Za-z0-9|@|#|\s]*"
 pattern_nombre_cerradura = r"</(.)*[N|n][O|o][M|m][B|b][R|r][E|e](.)*>"
 identificador_esperado = r"(a-zA-Z)(\w)*"
 def Lectura(ruta):
-    file = open(ruta, "r")
+    file = open(ruta, "r", encoding="utf8")
     Estado_Padre = "ninguno"
     Estado_Hijo = "ninguno"
     Estado_Caracter = "ninguno"
@@ -184,6 +184,7 @@ def Lectura(ruta):
                     elif re.search(pattern_estacion_estado_cerradura, cadena):
                         Estado_Hijo = "ninguno"
                         cadena = ""
+
                 elif re.search(pattern_estacion_color_apertura, cadena) and Estado_Hijo == "ninguno":
                     Estado_Hijo = "color"
                     Numero_Tokens += 1
@@ -193,7 +194,7 @@ def Lectura(ruta):
                     cadena = ""
                 elif Estado_Hijo == "color":
                     if char == "<":
-                        EstacionColor = cadena
+                        EstacionColor = cadena.upper()
                         cadena = ""
                     elif re.search(pattern_estacion_color_cerradura, cadena):
                         Estado_Hijo = "ninguno"
@@ -217,11 +218,11 @@ def Lectura(ruta):
                             EstacionEstado = ""
                             EstacionColor = ""
                         else:
-                            print("Los Datos dentro de la estacion no poseen el formato adecuado")
+                            print("Los Datos dentro de la estacion no poseen el formato adecuadooooooo")
                             break
                     else:
-                        print("Los Datos dentro de la estacion no poseen el formato adecuado")
-                        break
+                         print("Los Datos dentro de la estacion no poseen el formato adecuado")
+                         break
 
             elif re.search(pattern_nombre_apertura, cadena) and Estado_Padre == "ninguno":
                 Estado_Padre = "nombre"
@@ -250,7 +251,17 @@ def Lectura(ruta):
                     Estado_Caracter = "apertura"
                     cadena += char
                 elif Estado_Padre == "nombre" or Estado_Hijo == "nombre" or Estado_Hijo == "peso" or Estado_Hijo == "inicio" or Estado_Hijo == "fin" or Estado_Hijo == "estado" or Estado_Hijo == "color":
-                    cadena += char
+                    if ord(char) <= 57 and ord(char) >= 48:
+                        cadena += char
+                    elif ord(char) <= 90 and ord(char) >= 65:
+                        cadena += char
+                    elif ord(char) <= 122 and ord(char) >= 97:
+                        cadena += char
+                    elif ord(char) == 64 or ord(char) == 95 or ord(char) == 35 or ord(char) == 46:
+                        cadena += char
+                    else:
+                        Numero_Erores += 1
+                        Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Desconocido"])
                 else:
                     Numero_Erores += 1
                     Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Desconocido"])
@@ -624,6 +635,8 @@ def Lectura(ruta):
             else:
                 cadena += char
 
+
+
     Graficar_Reporte_Tokens_Y_Reporte_Errores(Reporte_Tokens, Reporte_Errores)
-    return Lista_Rutas, Lista_Estaciones
+    return Lista_Rutas, Lista_Estaciones, NombreMapa
 

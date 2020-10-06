@@ -121,12 +121,12 @@
         ruta_2_5
     </nombre>
     <peso>3</peso>
-    <inicio>
+    <inicio>”
         estacionzona2
     </inicio>
     <fin>
         estacionzona5
-    </fin>"
+    </fin>
 </ruta>
 
 <estacIon>
