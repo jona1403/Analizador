@@ -340,154 +340,154 @@ def Lectura(ruta):
                     cadena+=char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta de cierre"])
             elif Estado_Caracter == "r_ruta":
                 if char == "u" or char == "U":
                     Estado_Caracter = "u_ruta"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta ruta"])
             elif Estado_Caracter == "e_estacion":
                 if char == "s" or char == "S":
                     Estado_Caracter = "s_estacion"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estación"])
             elif Estado_Caracter == "n_nombre":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_nombre"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta nombre"])
             elif Estado_Caracter == "u_ruta":
                 if char == "t" or char == "T":
                     Estado_Caracter = "t_ruta"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta ruta"])
             elif Estado_Caracter == "s_estacion":
                 if char == "t" or char == "T":
                     Estado_Caracter = "t_estacion"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estación"])
             elif Estado_Caracter == "o_nombre":
                 if char == "m" or char == "M":
                     Estado_Caracter = "m_nombre"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta nombre"])
             elif Estado_Caracter == "t_ruta":
                 if char == "a" or char == "A":
                     Estado_Caracter = "a_ruta"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta ruta"])
             elif Estado_Caracter == "t_estacion":
                 if char == "a" or char == "A":
                     Estado_Caracter = "a_estacion"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estación"])
             elif Estado_Caracter == "m_nombre":
                 if char == "b" or char == "B":
                     Estado_Caracter = "b_nombre"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta nombre"])
             elif Estado_Caracter == "a_estacion":
                 if char == "c" or char == "C":
                     Estado_Caracter = "c_estacion"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estación"])
             elif Estado_Caracter == "b_nombre":
                 if char == "r" or char == "R":
                     Estado_Caracter = "r_nombre"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta nombre"])
             elif Estado_Caracter == "c_estacion":
                 if char == "i" or char == "I":
                     Estado_Caracter = "i_estacion"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estación"])
             elif Estado_Caracter == "r_nombre":
                 if char == "e" or char == "E":
                     Estado_Caracter = "e_nombre"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta nombre"])
             elif Estado_Caracter == "i_estacion":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_estacion"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estación"])
             elif Estado_Caracter == "o_estacion":
                 if char == "n" or char == "N":
                     Estado_Caracter = "n_estacion"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estación"])
             elif Estado_Caracter == "n_estacion":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena+=char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estacion"])
             elif Estado_Caracter == "e_nombre":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena+=char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta nombre"])
             elif Estado_Caracter == "a_ruta":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena+=char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta ruta"])
             elif Estado_Caracter == "p_peso":
                 if char == "e" or char == "E":
                     Estado_Caracter = "e_peso"
                     cadena+=char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta peso"])
             elif Estado_Caracter == "e_peso":
                 if char == "s" or char == "S":
                     Estado_Caracter = "s_peso"
                     cadena+=char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta peso"])
             elif Estado_Caracter == "s_peso":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_peso"
                     cadena+=char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta peso"])
             elif Estado_Caracter == "o_peso":
                 if char == ">":
                     Estado_Caracter = "ninguno"
@@ -498,140 +498,140 @@ def Lectura(ruta):
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta inicio"])
             elif Estado_Caracter == "n_inicio":
                 if char == "i" or char == "I":
                     Estado_Caracter = "2i_inicio"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta inicio"])
             elif Estado_Caracter == "2i_inicio":
                 if char == "c" or char == "C":
                     Estado_Caracter = "c_inicio"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta inicio"])
             elif Estado_Caracter == "c_inicio":
                 if char == "i" or char == "I":
                     Estado_Caracter = "3i_inicio"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta inicio"])
             elif Estado_Caracter == "3i_inicio":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_inicio"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta inicio"])
             elif Estado_Caracter == "o_inicio":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta inicio"])
             elif Estado_Caracter == "f_fin":
                 if char == "i" or char == "I":
                     Estado_Caracter = "i_fin"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta fin"])
             elif Estado_Caracter == "i_fin":
                 if char == "n" or char == "N":
                     Estado_Caracter = "n_fin"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta fin"])
             elif Estado_Caracter == "n_fin":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena+=char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta fin"])
             elif Estado_Caracter == "e_estado":
                 if char == "s" or char == "S":
                     Estado_Caracter = "s_estado"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estado"])
             elif Estado_Caracter == "s_estado":
                 if char == "t" or char == "T":
                     Estado_Caracter = "t_estado"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estado"])
             elif Estado_Caracter == "t_estado":
                 if char == "a" or char == "A":
                     Estado_Caracter = "a_estado"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estado"])
             elif Estado_Caracter == "a_estado":
                 if char == "d" or char == "D":
                     Estado_Caracter = "d_estado"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estado"])
             elif Estado_Caracter == "d_estado":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_estado"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estado"])
             elif Estado_Caracter == "o_estado":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta estado"])
             elif Estado_Caracter == "c_color":
                 if char == "o" or char == "O":
                     Estado_Caracter = "o_color"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta color"])
             elif Estado_Caracter == "o_color":
                 if char == "l" or char == "L":
                     Estado_Caracter = "l_color"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta color"])
             elif Estado_Caracter == "l_color":
                 if char == "o" or char == "O":
                     Estado_Caracter = "2o_Color"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta color"])
             elif Estado_Caracter == "2o_Color":
                 if char == "r" or char == "R":
                     Estado_Caracter = "r_color"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta color"])
             elif Estado_Caracter == "r_color":
                 if char == ">":
                     Estado_Caracter = "ninguno"
                     cadena += char
                 else:
                     Numero_Erores += 1
-                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Descripción"])
+                    Reporte_Errores.append([Numero_Erores, filas, columnas, char, "Error dentro de etiqueta color"])
             else:
                 cadena += char
 
