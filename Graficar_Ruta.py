@@ -3,6 +3,7 @@ def Filtro_Rutas(Estacion_Inicio, Estacion_Fin, Lista_Estaciones, Lista_Rutas):
     g = Digraph(format="png", name="Ruta")
     g.attr(rankdir="LR", size="8")
     g.attr("node")
+    Ruta_Final = []
     Lista_Rutas_Totales = []
     Listado_de_Rutas_Inicio = []
     Peso_Aux1 = 0
@@ -30,13 +31,19 @@ def Filtro_Rutas(Estacion_Inicio, Estacion_Fin, Lista_Estaciones, Lista_Rutas):
         Peso_Aux1 = Peso_Aux1/len(i)
         if Peso_Aux2 == 0 or Peso_Aux1 < Peso_Aux2:
             Peso_Aux2 = Peso_Aux1
+            Ruta_Final = i
         elif Peso_Aux1 > Peso_Aux2:
             Lista_Rutas_Totales.remove(i)
-    for i in Lista_Rutas_Totales:
-        for e in i:
-            for j in Lista_Estaciones:
-                if j.nombre == e.inicio or j.nombre == Estacion_Fin.lower():
-                    g.node(j.nombre, shape="", label=j.nombre + "\n" + j.estado, fillcolor=j.color, style="filled")
-            g.edge(e.inicio, e.fin, label=e.nombre + "\n" + str(e.peso))
+    # for i in Lista_Rutas_Totales:
+    #     for e in i:
+    #         for j in Lista_Estaciones:
+    #             if j.nombre == e.inicio or j.nombre == Estacion_Fin.lower():
+    #                 g.node(j.nombre, shape="", label=j.nombre + "\n" + j.estado, fillcolor=j.color, style="filled")
+    #         g.edge(e.inicio, e.fin, label=e.nombre + "\n" + str(e.peso))
+    for k in Ruta_Final:
+        for j in Lista_Estaciones:
+            if j.nombre == k.inicio or j.nombre == Estacion_Fin.lower():
+                g.node(j.nombre, shape="", label=j.nombre + "\n" + j.estado, fillcolor=j.color, style="filled")
+        g.edge(k.inicio, k.fin, label=k.nombre + "\n" + str(k.peso))
 
     g.view()
