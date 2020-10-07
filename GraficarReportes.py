@@ -8,7 +8,7 @@ def Graficar_Reporte_Tokens_Y_Reporte_Errores(ListaTokens, ListaErrores):
     c = tk.Canvas(window, background="grey", yscrollcommand = scrollbar.set)
     scrollbar.config(command= c.yview)
     scrollbar.pack(side = tk.RIGHT, fill = tk.Y)
-    window.geometry("355x400")
+    window.geometry("420x400")
 
     frame2 = tk.Frame(c)
     c.pack(side="left", fill= "both", expand=True)
